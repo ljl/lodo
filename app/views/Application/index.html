@@ -1,0 +1,15 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="container-fluid">
+	<h1>Lodo</h1>
+	<form action="@{Application.addEntry()}" class="form-inline">
+		<input type="text" name="list-name" class="input-medium">
+		<button type="submit" class="btn btn-warning">New List</button>
+	</form>
+	<ul>
+		#{list items:entries, as:'entry'}
+			<li>${entry.content}</li>
+		#{/list}
+	</ul>
+</div>
