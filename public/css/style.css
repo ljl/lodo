@@ -1,0 +1,39 @@
+.entry {
+	font-size:16px;
+}
+
+.entry a {
+	width:80%;
+	display:block;
+	min-height:25px;
+	float:left;
+}
+
+a.close {
+	padding:0 5px;
+}
+
+.control {
+	width:20px;
+}
+
+.close {
+	font-size:36px;
+	display: block;
+	height: 25px;
+}
+
+a.complete {
+	margin-top:-2px;
+}
+
+.children-count {
+	color:#d2d2d2;
+}
+tr.complete td a {
+	color:#d2d2d2;
+}
+
+body {
+	padding:10px;
+}

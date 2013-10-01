@@ -1,15 +1,35 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-<div class="container-fluid">
-	<h1>Lodo</h1>
+
 	<form action="@{Application.addEntry()}" class="form-inline">
-		<input type="text" name="list-name" class="input-medium">
-		<button type="submit" class="btn btn-warning">New List</button>
+		<input type="text" name="content" class="">
+		<input type="hidden" name="redirect" value="${request.url}" />
+		<button type="submit" class="btn btn-warning">New</button>
 	</form>
-	<ul>
-		#{list items:entries, as:'entry'}
-			<li>${entry.content}</li>
-		#{/list}
-	</ul>
-</div>
+
+#{if entries != null}
+<table class="table" style="width:300px;">
+	#{list items:entries, as:'child'}
+		<tr #{if child.complete} class="complete" #{/if}>
+			<td class="entry">
+<!-- 			<a href=""></a> -->
+				<a href="@{Application.showEntry(child.id)}">
+					${child.content} 
+				</a>
+				#{if child.getChildren().size() > 0}
+					<span class="badge #{if !child.complete} badge-info #{/if}">${child.getChildren().size()}</span>
+				#{/if}
+			</td>
+			<td class="control">
+				#{if !child.complete}
+					<a class="close complete" href="@{Application.completeEntry(child.id, request.url)}">×</a>
+				#{/if}
+				#{else}
+					<a class="close complete" href="@{Application.uncompleteEntry(child.id, request.url)}">×</a>
+				#{/else}
+			</td>
+		</tr>
+	#{/list}
+</table>
+#{/if}

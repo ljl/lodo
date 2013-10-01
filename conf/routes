@@ -3,7 +3,10 @@
 # ~~~~
 
 # Home page
+*    	/admin    								module:crudsiena
 GET     /                                       Application.index
+GET		/entries/{id}							Application.showEntry
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

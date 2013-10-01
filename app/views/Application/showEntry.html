@@ -1,0 +1,56 @@
+#{extends 'main.html' /}
+#{set title: entry.content /}
+
+<form action="@{Application.addEntry()}" class="form-inline">
+	<input type="text" name="content" class="">
+	<input type="hidden" name="parentId" value="${entry.id}" />
+	<input type="hidden" name="redirect" value="${request.url}" />
+	<button type="submit" class="btn btn-warning">New</button>
+</form>
+
+#{if children != null}
+<table class="table" style="width:300px;">
+	<thead>
+		<tr>
+			<th>
+				${entry.content}
+			</th>
+			<th>
+				<a class="close icon" href="#{if entry.parent == null} @{Application.index()} #{/if} #{else} @{Application.showEntry(entry.parent.id)} #{/else}"><i class="icon-arrow-left"></i></a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		#{list items:children, as:'child'}
+			<tr #{if child.complete} class="complete" #{/if}>
+			<td class="entry">
+<!-- 			<a href=""></a> -->
+				<a href="@{Application.showEntry(child.id)}">
+					${child.content} 
+				</a>
+				#{if child.getChildren().size() > 0}
+					<span class="badge #{if !child.complete} badge-info #{/if}">${child.getChildren().size()}</span>
+				#{/if}
+			</td>
+			<td class="control">
+				#{if !child.complete}
+					<a class="close" href="@{Application.completeEntry(child.id, request.url)}">×</a>
+				#{/if}
+				#{else}
+					<a class="close" href="@{Application.uncompleteEntry(child.id, request.url)}">×</a>
+				#{/else}
+			</td>
+		</tr>
+		#{/list}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>
+			</td>
+			<td style="text-align:right;">
+				<a href="@{Application.removeEntry(entry.id, '/')}" class="close"><i class="icon-trash"></i></a>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+#{/if}

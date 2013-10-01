@@ -9,26 +9,58 @@ import models.*;
 
 public class Application extends Controller {
 
-    public static void index() {
-    	List<Entry> entries = Entry.all().fetch();
+    public static void index(boolean all) {
+    	List<Entry> entries = null;
+    	if  (all) {
+    		 entries = Entry.all().fetch();
+    	} else {
+    		entries = Entry.all().filter("parent", null).fetch();
+    	}
+    	
     	
     	render(entries);
     }
     
-    public static void listEntries() {
-    	List<Entry> entries = Entry.all().fetch();
+    public static void showEntry(Long id) {
+    	Entry entry = Entry.getEntryById(id);
+    	List<Entry> children = Entry.all().filter("parent", entry).fetch();
     	
-    	render(entries);
+    	render(entry, children);
     }
     
-    public static void addEntry(String content, Long parentId) {
-    	Entry e = new Entry();
+    public static void removeEntry(Long id, String redirect) {
+    	Entry entry = Entry.getEntryById(id);
+    	entry.delete();
+    	redirect(redirect);
+    }
+    
+    public static void addEntry(String content, Long parentId, String redirect) {
+    	Entry e = new Entry();    	
     	e.content = content;
-    	e.parent = Entry.getEntryById(parentId);
+    	if (parentId != null) {
+    		e.parent = Entry.getEntryById(parentId);
+   
+    	}
     	
     	e.save();
     	
-    	index();
+    	redirect(redirect);
+    }
+    
+    public static void completeEntry(Long id, String redirect) {
+    	Entry e = Entry.getEntryById(id);
+    	e.complete = true;
+    	e.update();
+    	
+    	redirect(redirect);
+    }
+    
+    public static void uncompleteEntry(Long id, String redirect) {
+    	Entry e = Entry.getEntryById(id);
+    	e.complete = false;
+    	e.update();
+    	
+    	redirect(redirect);
     }
 
 }

@@ -5,3 +5,9 @@
 /logs
 /eclipse
 /precompiled
+.classpath
+.project
+.settings
+*.iml
+*.ipr
+*.iws
