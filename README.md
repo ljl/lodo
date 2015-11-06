@@ -2,5 +2,5 @@
 lodo is a simple nested todo list, made for personal use.
 deploys to appengine.
 
-# Demo
+## Demo
 https://iskald-lodo.appspot.com/
